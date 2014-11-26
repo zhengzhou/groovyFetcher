@@ -9,6 +9,5 @@ def  config = new FetcherConfig()
 config.init()
 
 config.cityMap.forEach{htmlData ->
-	new HttpPoster([htmlData:htmlData]).testGroovyHttp()
+	new HttpPoster([htmlData:htmlData]).post()
 }
-//new HttpPoster().testPost()

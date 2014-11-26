@@ -28,12 +28,12 @@ class FetcherConfig {
 
 		//常德站点表单
 		def changd = new HtmlData([host: 'http://changd.ccgp-hunan.gov.cn', path: '/search.cfm'])
-
-			changd.body = [key       : '%E7%BB%8F%E8%90%A5%E6%9D%83',
+			changd.selectPath = 'body > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr > td > table:nth-child(1) > tbody > tr'
+			changd.body = [key       : '经营权',
 						   'Submit.x': '25',
 						   'Submit.y': 9,
 						   type      : 'all',
-						   dq        : '%E6%B9%96%E5%8D%97%E7%9C%81%E5%B8%B8%E5%BE%B7%E5%B8%82',
+						   dq        : '湖南省常德市',
 						   dl        : 'search',
 						   submit    : 'search'
 			]
