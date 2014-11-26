@@ -25,6 +25,7 @@ class FetcherConfig {
 
 
 	void init() {
+		//常德站点表单
 		def changd = new HtmlData([host: 'changd.ccgp-hunan.gov.cn', path: '/search.cfm'])
 			changd.body = [key       : '%E7%BB%8F%E8%90%A5%E6%9D%83',
 						   'Submit.x': '25',
