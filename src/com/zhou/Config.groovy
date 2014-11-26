@@ -25,7 +25,7 @@ class FetcherConfig {
 
 
 	void init() {
-		def changd = new HtmlData([host: 'changd.ccgp-hunan.gov.cn', path: '/search.cfm'])
+		def changd = new HtmlData([host: 'http://changd.ccgp-hunan.gov.cn', path: '/search.cfm'])
 			changd.body = [key       : '%E7%BB%8F%E8%90%A5%E6%9D%83',
 						   'Submit.x': '25',
 						   'Submit.y': 9,
@@ -44,4 +44,14 @@ class HtmlData {
 	def path
 	def selectPath
 	def body
+
+
+	@Override
+	public String toString() {
+		return "HtmlData{" +
+				"host=" + host +
+				", path=" + path +
+				", selectPath=" + selectPath +
+				'}';
+	}
 }
