@@ -1,18 +1,15 @@
 package com.zhou
 
-import com.googlecode.groovyhttp.Http
 import groovyx.net.http.EncoderRegistry
 import groovyx.net.http.HTTPBuilder
+import org.jsoup.Jsoup
+
+import static groovyx.net.http.ContentType.URLENC
+import static groovyx.net.http.Method.POST
 
 /**
  * Created by zhou on 2014/11/25 0025.
  */
-import org.jsoup.Jsoup
-
-import static groovyx.net.http.ContentType.JSON
-import static groovyx.net.http.ContentType.URLENC
-import static groovyx.net.http.Method.POST
-
 class HttpPoster {
 
     HtmlData htmlData;
@@ -20,42 +17,36 @@ class HttpPoster {
     void post(){
         println 'posting...'
         def http = new HTTPBuilder(htmlData.host)
-        http.encoderRegistry = new EncoderRegistry(charset:'utf-8')
-        http.handler.success = { resp ,html ->
+        http.encoderRegistry = new EncoderRegistry(charset:'gbk')
+
+        http.handler.success = { resp ,reader ->
             println '请求成功'
-            parseHtml(formatHtml(html))
+            println reader.getClass().getName()
+           // html = new String(html.getBytes("US-ASCII"),"gbk");
+            print reader
+            parseHtml(formatHtml(reader))
         }
 
         http.handler.failure = { resp ->
             println "Unexpected failure: ${resp.statusLine}"
         }
-
-//        form submit use requestContentType: URLENC !!
-//        http.post( path: htmlData.path, body: htmlData.body,
-//                requestContentType: URLENC ) { resp,html ->
-//            println "POST Success: ${resp.statusLine}"
-//           // println html
-//            parseHtml(html)
-//        }
-
-        def result =  http.request(POST,URLENC){
+        http.contentType = URLENC
+        http.request(POST){
             uri.path = htmlData.path
-            headers : [Accept : 'text/html; charset=utf-8']
+            headers.Accept = 'text/html'
             body = htmlData.body
         }
 
-        print result
     }
 
     void parseHtml(html){
         Jsoup.parse(html).body().select(htmlData.selectPath).each {
-            printf it.text
+            println it.text
         }
     }
 
     String formatHtml(html){
-        def result = html =~ /<html>.*<\/html>/
-        print result[0]
+        def result = html =~ /<html>[\s\S]{0,}/
         return result[0]
         /*new HTTPBuilder('http://tool.oschina.net').request(POST,JSON){
             uri.path = '/action/format/html'
@@ -67,23 +58,4 @@ class HttpPoster {
         }*/
     }
 
-    void testGet() {
-        def host = 'http://api.mgyapp.com'
-        def http = new HTTPBuilder(host)
-        def json = http.get(path: '/v2/gift/list', contentType: JSON, query: [pageno: 1, pagesize: 20, packagename: ''])
-        println(json)
-
-        http = new HTTPBuilder('http://www.yayu.org')
-        def html = http.get( path : '/book/gnu_make/index.html')
-        print html
-    }
-
-    void testGroovyHttp(){
-        //with constructor
-        new Http().get("http://www.qjvpn.net/user/checklogin.php")
-                .getForm('loginForm')
-                .submit(username:'huahuasa',password:'huahuasa',from:'')
-                .get("http://www.qjvpn.net/user/center.php")
-                .text
-    }
 }
