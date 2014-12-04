@@ -27,7 +27,8 @@ class FetcherConfig {
 	void init() {
 
 		//常德站点表单
-		def changd = new HtmlData([host: 'http://changd.ccgp-hunan.gov.cn', path: '/search.cfm'])
+		def changd = new HtmlData([host: 'http://changd.ccgp-hunan.gov.cn', path: '/more.cfm?sid=100002001'])
+		//body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1)
 			changd.selectPath = 'body > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr > td > table:nth-child(1) > tbody > tr'
 			changd.body = [key       : '经营权',
 						   'Submit.x': '25',

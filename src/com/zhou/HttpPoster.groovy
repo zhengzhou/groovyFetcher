@@ -17,6 +17,8 @@ class HttpPoster {
     void post(){
         println 'posting...'
         def http = new HTTPBuilder(htmlData.host)
+        http.setProxy('127.0.0.1',8888,'http')
+
         http.encoderRegistry = new EncoderRegistry(charset:'gbk')
 
         http.handler.success = { resp ,reader ->
@@ -34,6 +36,7 @@ class HttpPoster {
         http.request(POST){
             uri.path = htmlData.path
             headers.Accept = 'text/html'
+            headers.'User-Agent' = 'Mozilla/5.0 Ubuntu/14.10 Firefox/33.0.4'
             body = htmlData.body
         }
 
