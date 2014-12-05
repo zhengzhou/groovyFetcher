@@ -17,7 +17,9 @@ class HttpFetcher {
         def title;
         def url;
         Jsoup.connect(htmlData.host+htmlData.path).get().select(htmlData.selectPath).each {
-            print it.text()
+            def content = it.text()
+            if(content.contains("经营权"))
+                println it.text()
         }
     }
 }
