@@ -22,27 +22,36 @@ class XmlBuilder {
     }
 
     //返回这个月的所有数据。
-    void read() {
+    def read() {
         //check is extends.if true read the xml
+        def resultItems = [];
         if (new File(fileName).exists()) {
-
+            def xml = new XmlParser().parse(fileName)
+            xml.announcements.each {
+                def result = new ResultData()
+                result.city = it.city.text()
+                result.title = it.title.text()
+                result.href = it.url.text()
+                result.time = it.attribute('time')
+                resultItems << result
+            }
         } else {
-
+            return null;
         }
     }
 
-    void createXml(){
+    void createXml() {
         //create xml file.
         def writer = new FileWriter(fileName)
         def xml = new groovy.xml.MarkupBuilder(writer)
-        xml.announcements(time:"current"){
-            city(flavor:"static", version:"1.5", "Java")
-            title(flavor:"dynamic", version:"1.6.0", "Groovy")
-            url(flavor:"dynamic", version:"1.9", "JavaScript")
+        xml.announcements(time: "current") {
+            city("Java")
+            title("Groovy")
+            url("JavaScript")
         }
     }
 
-    void writeXMl(){
+    void writeXMl() {
 
     }
 }

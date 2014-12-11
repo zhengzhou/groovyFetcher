@@ -33,21 +33,3 @@ class HttpFetcher {
     }
 }
 
-class ResultData{
-    //结果数据。
-    def city
-    def time
-    def title
-    def href
-
-
-    @Override
-    public String toString() {
-        return "ResultData{" +
-                "city=" + city +
-                ", time=" + time +
-                ", title=" + title +
-                ", href=" + href +
-                '}';
-    }
-}
